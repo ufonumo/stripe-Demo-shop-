@@ -1,1 +1,2 @@
 # stripe-Demo-shop-
+This is a demo shop that i built using material-ui core for styling, commerce js as the backend and generator of all the APIs for all the products and Stripe as the payment platform for the shop

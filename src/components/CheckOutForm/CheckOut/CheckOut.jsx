@@ -9,7 +9,7 @@ const steps = [ 'Shipping address' , 'Payment details'];
 
 const CheckOut = ({ cart }) => {
     const [activeStep, setActiveStep] = useState(0);
-    const [checkoutToken, setCheckoutToken] = useState(null)
+    const [checkoutToken, setCheckoutToken] = useState(null);
     const classes = useStyles();
 
     // this creates the checkout token for each of the products
