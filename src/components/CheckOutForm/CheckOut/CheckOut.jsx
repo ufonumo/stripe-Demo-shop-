@@ -4,10 +4,12 @@ import useStyles from './styles';
 import AddressForm from '../AddressForm';
 import PaymentForm from '../PaymentForm';
 import { commerce } from '../../../lib/commere'
+import { Link  } from 'react-router-dom'
+
 
 const steps = [ 'Shipping address' , 'Payment details'];
 
-const CheckOut = ({ cart }) => {
+const CheckOut = ({ cart , order, handleCaptureCheckout , error }) => {
     const [activeStep, setActiveStep] = useState(0);
     const [checkoutToken, setCheckoutToken] = useState(null);
     const classes = useStyles();
@@ -23,7 +25,7 @@ const CheckOut = ({ cart }) => {
 
                 setCheckoutToken(token)
 
-            } catch ( error){
+            } catch (error){
 
             }
         };
@@ -40,15 +42,41 @@ const CheckOut = ({ cart }) => {
         nextStep();
     }
 
-    const Confirmation = () =>(
-        <div>
-            Confirmation
+    let Confirmation = () => order.customer ? (
+        <>
+            <div>
+                <Typography variant='h5'>Thank you for your purchase, {order.customer.firstname}  {order.customer.lastname}</Typography>
+                <Divider className={classes.divider}/>
+                <Typography variant='subtitle2'>Order ref: {order.customer.reference} </Typography>
+                <br />
+                <Button  variant='outlined' component={Link} to='/'>Back to Home</Button>
+            </div>
+        </>
+    ) : (
+        <div className={classes.spinner}>
+            <CircularProgress/>
         </div>
     )
 
+    if(error) {
+        <>
+            <Typography variant='h5'>Error: {error}</Typography>
+            <br />
+            <>
+            <Button  variant='outlined' component={Link} to='/'>Back to Home</Button>
+            </>
+        </>
+    }
+
     const Form = () => activeStep === 0 
             ? <AddressForm checkoutToken={checkoutToken} next={next}/> 
-            : <PaymentForm shippingData={shippingData}/>
+            : <PaymentForm 
+                    shippingData={shippingData} 
+                    checkoutToken={checkoutToken}
+                    prevStep={prevStep}
+                    nextStep={nextStep}
+                    handleCaptureCheckout={handleCaptureCheckout}
+                />
 
     return (
         <>
