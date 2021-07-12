@@ -16,22 +16,23 @@ const PaymentForm = ({checkoutToken, shippingData, nextStep, prevStep , handleCa
 
         const cardElement = elements.getElement(CardElement);
 
-        const {error , paymentMethod} = await stripe.createPaymentMethod({type: 'card' , card: cardElement})
+        const { error , paymentMethod } = await stripe.createPaymentMethod({type: 'card' , card: cardElement})
         
         console.log(shippingData);
 
         if(error){
             console.log(error);
         }else{
-            const orderData = {
+            const orderData = { 
                 line_items:  checkoutToken.live.line_items,
-                customer: {firstname: shippingData.firstname , lastname: shippingData.lastname, email: shippingData.email },
+                customer: { firstname: shippingData.firstname , lastname: shippingData.lastname, email: shippingData.email },
                 shipping: {
                     name: 'Primary' , 
                     street: shippingData.address1, 
                     town_city: shippingData.city,
                     county_state: shippingData.shippingSubdivision,
-                    country: shippingData.shippingCountry
+                    country: shippingData.shippingCountry,
+                    postal_zip_code: shippingData.zip
                 },
                 fulfillment: {shipping_method: shippingData.shippingOption},
                 payment:{

@@ -1,19 +1,18 @@
 import React,  {useState , useEffect} from 'react';
 import { InputLabel, Select , MenuItem, Button, Grid, Typography} from '@material-ui/core'
 import {useForm ,  FormProvider} from 'react-hook-form';
-import CustomTextField from './CustomTextField';
+import FormInput from './CustomTextField';
 import { Link } from 'react-router-dom'
 import { commerce } from '../../lib/commere'
 
 const AddressForm = ({checkoutToken , next}) => {
-    const methods = useForm();
     const [shippingCountries, setShippingCountries] = useState([]);
     const [shippingCountry, setShippingCountry] = useState('');
     const [shippingSubdivisions, setshippingSubdivisions] = useState([]);
     const [shippingSubdivision, setshippingSubdivision] = useState('');
     const [shippingOptions, setShippingOptions] = useState([]);
     const [shippingOption, setShippingOption] = useState('');
-    //const methods = useForm();
+    const methods = useForm();
 
     const countries = Object.entries(shippingCountries).map(([code, name]) => ({id: code , label: name})) ;
     const subdivisions = Object.entries(shippingSubdivisions).map(([code, name]) => ({id: code , label: name})) ;
@@ -24,7 +23,6 @@ const AddressForm = ({checkoutToken , next}) => {
         const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId);
         setShippingCountries(countries);
         setShippingCountry(Object.keys(countries)[0]);
-        console.log(countries);
     }
 
     const getSubDivisionCountry = async (countryCode) =>{
@@ -36,7 +34,6 @@ const AddressForm = ({checkoutToken , next}) => {
 
     const getShippingOptions = async ( checkoutTokenId , country , region = null ) => {
         const options = await commerce.checkout.getShippingOptions(checkoutTokenId , {country , region })
-        console.log(options);
         setShippingOptions(options);
         setShippingOption(options[0].id)
     }
@@ -61,12 +58,12 @@ const AddressForm = ({checkoutToken , next}) => {
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit((data) => next({ ...data, shippingCountry, shippingSubdivision, shippingOption }))}>
                     <Grid container spacing={3}>
-                        <CustomTextField name='firstName' label='First name'/>
-                        <CustomTextField name='lastName' label='Last name'/>
-                        <CustomTextField name='address1' label='Address'/>
-                        <CustomTextField name='email' label='Email'/>
-                        <CustomTextField name='city' label='City'/>
-                        <CustomTextField name='zip' label='ZIP or Postal code'/>
+                        <FormInput name='firstname' label='First name'/>
+                        <FormInput name='lastname' label='Last name'/>
+                        <FormInput name='address1' label='Address'/>
+                        <FormInput name='email' label='Email'/>
+                        <FormInput name='city' label='City'/>
+                        <FormInput name='zip' label='ZIP or Postal code'/>
 
                          <Grid item xs={12} sm={6}>
                             <InputLabel>Shipping Country</InputLabel>

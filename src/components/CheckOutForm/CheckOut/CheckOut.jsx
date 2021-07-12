@@ -1,10 +1,10 @@
 import React , {useState , useEffect} from 'react'
-import { Paper, Stepper, StepLabel, Step, CircularProgress, Divider, Button, Typography} from '@material-ui/core'
+import { Paper, CssBaseline, Stepper, StepLabel, Step, CircularProgress, Divider, Button, Typography} from '@material-ui/core'
 import useStyles from './styles';
 import AddressForm from '../AddressForm';
 import PaymentForm from '../PaymentForm';
 import { commerce } from '../../../lib/commere'
-import { Link  } from 'react-router-dom'
+import { Link  , useHistory} from 'react-router-dom'
 
 
 const steps = [ 'Shipping address' , 'Payment details'];
@@ -13,7 +13,8 @@ const CheckOut = ({ cart , order, handleCaptureCheckout , error }) => {
     const [activeStep, setActiveStep] = useState(0);
     const [checkoutToken, setCheckoutToken] = useState(null);
     const classes = useStyles();
-    const [shippingData, setShippingData] = useState({})
+    const [shippingData, setShippingData] = useState({});
+    const history = useHistory();
 
     // this creates the checkout token for each of the products
     useEffect(() => {
@@ -26,7 +27,7 @@ const CheckOut = ({ cart , order, handleCaptureCheckout , error }) => {
                 setCheckoutToken(token)
 
             } catch (error){
-
+                history.pushState('/');
             }
         };
 
@@ -47,9 +48,9 @@ const CheckOut = ({ cart , order, handleCaptureCheckout , error }) => {
             <div>
                 <Typography variant='h5'>Thank you for your purchase, {order.customer.firstname}  {order.customer.lastname}</Typography>
                 <Divider className={classes.divider}/>
-                <Typography variant='subtitle2'>Order ref: {order.customer.reference} </Typography>
+                <Typography variant='subtitle2'>Order ref: {order.customer_reference} </Typography>
                 <br />
-                <Button  variant='outlined' component={Link} to='/'>Back to Home</Button>
+                <Button type='button'  variant='outlined' component={Link} to='/'>Back to Home</Button>
             </div>
         </>
     ) : (
@@ -63,7 +64,7 @@ const CheckOut = ({ cart , order, handleCaptureCheckout , error }) => {
             <Typography variant='h5'>Error: {error}</Typography>
             <br />
             <>
-            <Button  variant='outlined' component={Link} to='/'>Back to Home</Button>
+                <Button type='button' variant='outlined' component={Link} to='/'>Back to Home</Button>
             </>
         </>
     }
@@ -80,6 +81,7 @@ const CheckOut = ({ cart , order, handleCaptureCheckout , error }) => {
 
     return (
         <>
+            <CssBaseline/>
             <div className={classes.toolbar}/>
             <main className={classes.layout}>
                 <Paper className={classes.paper}>

@@ -46,10 +46,10 @@ function App() {
   }
 
   const refreshCart = async () =>{
-    const {newCart} = await commerce.cart.refresh();
+    const newCart = await commerce.cart.refresh();
 
     setCart(newCart)
-  }
+  } 
 
 
   const handleCaptureCheckout = async (checkoutTokenId , newOrder) =>{
@@ -62,6 +62,7 @@ function App() {
     }
     catch(error){
       setErrorMessage(error.data.error.message)
+      console.log(error.data.error.message);
     }
 
   }
@@ -71,7 +72,6 @@ function App() {
     getProducts();
   }, []);
 
- console.log(cart);
 
   return (
     <Router>
@@ -81,7 +81,6 @@ function App() {
         <Switch>
           <Route exact path='/'>
             <Products products={products} onAddToCart={handleAddToCart}/>
-
           </Route>
           <Route exact path='/cart'>
             { loading ? 

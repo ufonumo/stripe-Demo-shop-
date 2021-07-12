@@ -11,14 +11,14 @@ const Product = ({product, onAddToCart}) => {
             <CardMedia className={classes.media} image={product.media.source} title={product.name} />
             <CardContent>
                 <div className={classes.cardContent}>
-                    <Typography variant='small' gutterBottom>
+                    <Typography variant='subtitle2' gutterBottom>
                         {product.name}
                     </Typography>
-                    <Typography variant='small' gutterBottom>
+                    <Typography variant='subtitle2' gutterBottom>
                         {product.price.formatted_with_symbol}
                     </Typography>
                 </div>
-                <Typography dangerouslySetInnerHTML={{__html: product.description}} variant='body' color="textSecondary" gutterBottom />
+                <Typography dangerouslySetInnerHTML={{__html: product.description}} variant='body1' color="textSecondary" gutterBottom />
                    
             </CardContent>
             <CardActions disableSpacing className={classes.cardActions}>
